@@ -31,8 +31,6 @@ The framework will embed compliance checks, audit trails, and access controls to
 
 📚 Collaboration and Community Engagement
 As an open source project, the framework encourages contributions from the global risk and compliance community. Comprehensive documentation, contributor guides, and community forums will support onboarding and knowledge sharing.
-
-8. Extensibility and Integration
 Designed for integration with existing systems and third-party tools, the framework will offer APIs, connectors, and export/import capabilities, enabling seamless adoption within diverse IT environments.
 
 ## 🧱 Key Features
