@@ -10,7 +10,7 @@ The goal of this project is to create a robust, modular, and open source risk ma
 
 This framework is designed to be accessible to a wide range of stakeholders—including risk professionals, compliance teams, data scientists, and developers—enabling them to collaboratively build, customize, and extend risk management solutions tailored to their unique needs. The open source nature of the project promotes transparency, community-driven innovation, and continuous improvement, ensuring that the framework remains aligned with evolving regulatory requirements and industry best practices.
 
-* Project Scope and Key Features
+## 🧱 Project Scope
 ⚙️ Modular Architecture
 The framework will be built using a modular design, allowing users to plug in or swap out risk modules (e.g., operational risk, AML, sanctions screening) as needed. This ensures flexibility and scalability for organizations of all sizes.
 
