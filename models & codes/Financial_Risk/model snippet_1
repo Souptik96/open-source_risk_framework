@@ -1,0 +1,10 @@
+## Rule-Based Risk Scoring (model.py)
+
+def score_financial_crime_risk(row):
+    # Example: Risk Score = Suspicion Score (1-5) * Amount (normalized 1-5)
+    amount_score = min(5, max(1, int(row['amount'] / 20000)))  # Example normalization
+    return row['suspicion_score'] * amount_score
+
+data['risk_score'] = data.apply(score_financial_crime_risk, axis=1)
+print("Risk scores calculated:")
+print(data[['transaction_id', 'suspicion_score', 'amount', 'risk_score']].head())
