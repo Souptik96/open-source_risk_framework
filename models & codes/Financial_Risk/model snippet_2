@@ -1,0 +1,10 @@
+from sklearn.ensemble import IsolationForest
+
+def train_isolation_forest(df, contamination=0.2):
+    model = IsolationForest(contamination=contamination, random_state=42)
+    model.fit(df)
+    return model
+
+def predict(model, df):
+    result = model.predict(df)
+    return ['ANOMALY' if r == -1 else 'NORMAL' for r in result]
