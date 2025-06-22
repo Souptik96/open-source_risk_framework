@@ -1,0 +1,57 @@
+# The file import procedure remains same for all models.
+
+## CSV Import
+import pandas as pd
+
+# Load and preprocess CSV data
+data = pd.read_csv('financial_crime_data.csv')
+data = data.fillna(0)
+data.columns = [col.strip().lower().replace(' ', '_') for col in data.columns]
+print("Loaded data from CSV:")
+print(data.head())
+
+## AWS S3 Ingestion (ingest_aws.py)
+import pandas as pd
+import boto3
+from io import StringIO
+
+s3 = boto3.client('s3')
+bucket_name = 'your-bucket-name'
+object_key = 'financial_crime/data.csv'
+
+csv_obj = s3.get_object(Bucket=bucket_name, Key=object_key)
+body = csv_obj['Body'].read().decode('utf-8')
+data = pd.read_csv(StringIO(body))
+print("Loaded data from AWS S3:")
+print(data.head())
+
+## Google Cloud Storage Ingestion (ingest_gcp.py)
+import pandas as pd
+from google.cloud import storage
+from io import StringIO
+
+client = storage.Client()
+bucket = client.get_bucket('your-bucket-name')
+blob = bucket.blob('financial_crime/data.csv')
+
+data_str = blob.download_as_text()
+data = pd.read_csv(StringIO(data_str))
+print("Loaded data from Google Cloud Storage:")
+print(data.head())
+
+## Azure Blob Storage Ingestion (ingest_azure.py)
+import pandas as pd
+from azure.storage.blob import BlobServiceClient
+from io import StringIO
+
+conn_str = 'your-azure-blob-connection-string'
+container_name = 'your-container'
+blob_name = 'financial_crime/data.csv'
+
+blob_service_client = BlobServiceClient.from_connection_string(conn_str)
+blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
+
+stream = blob_client.download_blob()
+data = pd.read_csv(StringIO(stream.readall().decode('utf-8')))
+print("Loaded data from Azure Blob Storage:")
+print(data.head())
