@@ -1,0 +1,49 @@
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report, roc_auc_score
+
+# Feature Engineering (customize as needed)
+def create_advanced_features(data):
+    # Z-score of transaction amount
+    data['amount_zscore'] = (data['amount'] - data['amount'].mean()) / data['amount'].std()
+    # Example: Transaction frequency (last 30 days)
+    data['txn_count_30d'] = data.groupby('customer_id')['transaction_id'].transform('count')
+    return data
+
+# Prepare data
+data = create_advanced_features(data)
+features = ['amount_zscore', 'txn_count_30d', 'country_risk', 'historical_alert_count', 'suspicion_score']
+X = data[features]
+y = data['suspicion_label']  # 1 for suspicious, 0 for normal
+
+# Random Forest Model
+def ensemble_random_forest(X, y):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    y_proba = model.predict_proba(X_test)[:, 1]
+    print("Random Forest Performance:")
+    print(classification_report(y_test, y_pred))
+    print(f"AUC: {roc_auc_score(y_test, y_proba):.4f}")
+    return model
+
+# Gradient Boosting Model
+def ensemble_gradient_boosting(X, y):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    model = GradientBoostingClassifier(n_estimators=100, random_state=42)
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    y_proba = model.predict_proba(X_test)[:, 1]
+    print("Gradient Boosting Performance:")
+    print(classification_report(y_test, y_pred))
+    print(f"AUC: {roc_auc_score(y_test, y_proba):.4f}")
+    return model
+
+# Train and compare models
+rf_model = ensemble_random_forest(X, y)
+gb_model = ensemble_gradient_boosting(X, y)
+
+# Use the better model for risk scoring
+data['ml_risk_score'] = rf_model.predict_proba(X)[:, 1]  # or gb_model.predict_proba(X)[:, 1]
