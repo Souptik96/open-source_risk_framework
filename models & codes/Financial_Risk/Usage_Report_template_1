@@ -1,0 +1,38 @@
+# Generate risk scores using multiple methods
+data['rule_based_score'] = data.apply(enhanced_rule_based_risk, axis=1)
+data = create_advanced_features(data)
+
+# Prepare ML data
+X = data[['amount_zscore', 'merchant_freq_30min', 'spend_volatility', 
+           'country_risk', 'historical_alert_count']]
+y = data['suspicion_label']  # Binary label indicating suspicious activity
+
+# Train and compare models
+lr_model = ml_logistic_regression(X, y)
+rf_model = ensemble_random_forest(X, y)
+risk_multiplier, risk_intercept, risk_coeffs = interpretable_risk_score(X, y, k=5)
+
+# Generate comprehensive report
+def generate_risk_report(data, models):
+    # Ensemble predictions
+    data['ml_risk_score'] = rf_model.predict_proba(X)[:,1]
+    data['final_risk_score'] = 0.6*data['ml_risk_score'] + 0.4*data['rule_based_score']
+    
+    # Apply interpretable risk formula
+    data['interpretable_score'] = risk_intercept + data[selected_features].dot(risk_coeffs)
+    
+    # Generate tiered risk categories
+    data['risk_tier'] = pd.cut(data['final_risk_score'], 
+                               bins=[0, 0.3, 0.7, 1],
+                               labels=['Low', 'Medium', 'High'])
+    
+    # Save comprehensive report
+    report = data[['transaction_id', 'final_risk_score', 'risk_tier', 
+                  'interpretable_score', 'ml_risk_score']]
+    report.to_csv('financial_crime_report.csv', index=False)
+    
+    print("Generated report with ensemble scoring")
+    return report
+
+# Generate final report
+risk_report = generate_risk_report(data, {'lr': lr_model, 'rf': rf_model})
