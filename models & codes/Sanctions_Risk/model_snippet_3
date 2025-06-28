@@ -1,0 +1,73 @@
+import pandas as pd
+import boto3
+from io import StringIO
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report, roc_auc_score
+
+# --- Mock AWS S3 Data Ingestion (for local testing) ---
+# For real usage, replace with real AWS credentials and bucket/object key
+csv_content = '''transaction_id,customer_id,suspicion_score,amount,country,transaction_type,matched_watchlist,historical_alert_count,suspicion_label
+1,C1001,3,50000,RU,cross-border,True,2,1
+2,C1002,5,10000,US,domestic,False,0,0
+3,C1003,2,75000,IR,crypto,True,1,1
+4,C1004,4,20000,FR,cross-border,False,0,0
+5,C1005,1,30000,SY,cross-border,True,3,1
+'''
+
+class MockS3Client:
+    def get_object(self, Bucket, Key):
+        return {'Body': StringIO(csv_content)}
+
+s3 = MockS3Client()
+bucket_name = 'mock-bucket'
+object_key = 'sanctions_risk/data.csv'
+
+csv_obj = s3.get_object(Bucket=bucket_name, Key=object_key)
+body = csv_obj['Body'].read()
+data = pd.read_csv(StringIO(body))
+
+# --- Feature Engineering ---
+# 1. Amount z-score
+data['amount_zscore'] = (data['amount'] - data['amount'].mean()) / data['amount'].std()
+# 2. Transaction frequency per customer
+data['txn_count'] = data.groupby('customer_id')['transaction_id'].transform('count')
+# 3. Historical alert count normalized
+data['alert_count_norm'] = data['historical_alert_count'] / data['historical_alert_count'].max()
+# 4. Suspicion score squared (non-linear feature)
+data['suspicion_score_sq'] = data['suspicion_score'] ** 2
+# 5. Country risk (sanctioned countries get higher risk)
+data['country_risk'] = data['country'].isin(['IR', 'RU', 'KP', 'SY']).astype(int)
+# 6. Watchlist match indicator
+data['watchlist_match'] = data['matched_watchlist'].astype(int)
+# 7. Transaction type risk (cross-border/crypto higher risk)
+data['txn_type_risk'] = data['transaction_type'].isin(['cross-border', 'crypto']).astype(int)
+
+# --- Prepare Features and Label ---
+features = [
+    'amount_zscore', 'txn_count', 'alert_count_norm',
+    'suspicion_score_sq', 'country_risk', 'watchlist_match', 'txn_type_risk'
+]
+X = data[features]
+y = data['suspicion_label']
+
+# --- Split Data ---
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# --- Train Complex Model ---
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+
+# --- Evaluate ---
+y_pred = model.predict(X_test)
+y_proba = model.predict_proba(X_test)[:, 1]
+
+print("Random Forest Performance:")
+print(classification_report(y_test, y_pred))
+print(f"AUC: {roc_auc_score(y_test, y_proba):.4f}")
+
+# --- Save Scored Data ---
+data['ml_risk_score'] = model.predict_proba(X)[:, 1]
+data.to_csv('sanctions_risk_scored_ml.csv', index=False)
+
+print("ML risk scores saved to sanctions_risk_scored_ml.csv")
