@@ -1,0 +1,74 @@
+model:
+  name: "Operational Risk Assessment Models"
+  version: "1.0.0"
+  author: "Souptik Chakraborty"
+  date: "2025-06-28"
+  purpose: >
+    Identify, score, and prioritize operational risks using a combination
+    of risk matrix, machine learning, and scenario analysis.
+    Supports regulatory compliance and internal risk management.
+
+scope:
+  use_cases:
+    - Incident and loss event analysis
+    - KRI (Key Risk Indicator) monitoring
+    - Scenario analysis for capital planning
+  risk_types:
+    - System outages
+    - Fraud attempts
+    - Data entry errors
+    - Cyber-attacks
+    - Process failures
+
+data:
+  sources:
+    - operational_risk_data.csv (local or cloud)
+  preprocessing:
+    - Fill missing values as appropriate
+    - Standardize column names and data types
+
+features:
+  - likelihood: Subjective or historical probability (1–5)
+  - impact: Estimated severity (1–5)
+  - duration_hours: Duration of incident
+  - incident_type_code: Encoded incident type
+  - critical_flag: Binary indicator for critical risks
+
+methodology:
+  approaches:
+    - Risk matrix: Likelihood × Impact
+    - Decision tree classifier for critical event prediction
+    - Scenario analysis with Monte Carlo simulation for loss forecasting
+  model_training:
+    - Train/test split for ML models
+    - Evaluation: classification report, confusion matrix
+
+validation:
+  metrics:
+    - Accuracy, precision, recall, F1-score (for ML)
+    - Scenario loss distribution, VaR (for simulations)
+  backtesting:
+    - Compare model outputs with historical incidents and losses
+
+outputs:
+  - operational_risk_report.csv: Top risk events and scores
+  - Model performance metrics for audit and review
+
+compliance_and_governance:
+  documentation:
+    - Model context, assumptions, and methodology described in this YAML
+    - Versioning and change log for updates
+  explainability:
+    - Transparent risk scoring logic
+    - Feature importance for ML models
+  audit_trail:
+    - All scoring decisions and data transformations logged
+
+limitations_and_assumptions:
+  - Data quality and completeness are assumed
+  - Risk matrix thresholds and weights should be reviewed periodically
+  - Scenario parameters based on expert judgment and historical data
+
+integration:
+  - Modular design for integration with other risk modules
+  - Can be extended for real-time risk monitoring and reporting
