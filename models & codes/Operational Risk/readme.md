@@ -4,21 +4,15 @@ It supports risk identification, assessment, mitigation, monitoring, and reporti
 
 🧱File Descriptions:
 1. model snippet(s)
-
   * Demonstrates both simple (risk matrix: likelihood × impact) and advanced (e.g., decision trees, scenario analysis) approaches for scoring and prioritizing operational risks.
-
   * Includes methods for quantifying risk, identifying key risk indicators (KRIs), and supporting regulatory capital calculations.
 
 2. Usage_Report(s)
-
   * Provides example code for summarizing model outputs, ranking top operational risks or incidents, and exporting results (e.g., to CSV).
-
   * Useful for board reporting, compliance, audit, and continuous improvement.
 
 3. MCP File
-
   * YAML file documenting the context, assumptions, data sources, methodology, and outputs for each operational risk model.
-
   * Ensures transparency, reproducibility, and auditability—aligned with regulatory guidance on operational risk frameworks.
 
 📌How to Use
