@@ -1,0 +1,9 @@
+# Identify top 5 highest sanctions risk cases
+top_risks = data.sort_values('risk_score', ascending=False).head(5)
+
+print("Top 5 Sanctions Risk Cases:")
+print(top_risks[['customer_id', 'country', 'matched_watchlist', 'transaction_type', 'risk_score']])
+
+# Export report
+top_risks.to_csv('sanctions_risk_report.csv', index=False)
+print("Report saved to sanctions_risk_report.csv")
