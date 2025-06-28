@@ -1,0 +1,12 @@
+import pandas as pd
+
+# Example: Rule-based sanctions risk scoring
+def sanctions_risk_score(row):
+    # Assign higher risk if customer is in a sanctioned country or matches a watchlist
+    country_risk = 5 if row['country'] in ['IR', 'RU', 'KP', 'SY'] else 1
+    watchlist_risk = 5 if row['matched_watchlist'] else 1
+    transaction_risk = 3 if row['transaction_type'] in ['cross-border', 'crypto'] else 1
+    # Aggregate risk score (you can fine-tune weights)
+    return country_risk + watchlist_risk + transaction_risk
+
+data['risk_score'] = data.apply(sanctions_risk_score, axis=1)
