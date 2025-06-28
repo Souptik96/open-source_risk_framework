@@ -1,0 +1,34 @@
+import pandas as pd
+
+# Load your data (adjust the path as needed)
+data = pd.read_csv('sanctions_risk_data.csv') --- add using cloud if needednb m,.;
+data = data.fillna('')
+data.columns = [col.strip().lower().replace(' ', '_') for col in data.columns]
+
+# --- Rule-Based Sanctions Risk Scoring Function ---
+def sanctions_risk_score(row):
+    """
+    Assigns a risk score based on:
+    - Country risk (high if country is sanctioned)
+    - Watchlist match (high if matched)
+    - Transaction type (higher risk for cross-border/crypto)
+    """
+    # Example risk factors
+    sanctioned_countries = ['IR', 'RU', 'KP', 'SY']
+    country_risk = 5 if row['country'] in sanctioned_countries else 1
+    watchlist_risk = 5 if str(row['matched_watchlist']).lower() == 'true' else 1
+    transaction_risk = 3 if row['transaction_type'] in ['cross-border', 'crypto'] else 1
+
+    # Aggregate risk score (sum or weighted sum)
+    total_risk = country_risk + watchlist_risk + transaction_risk
+    return total_risk
+
+# Apply the risk scoring function
+data['risk_score'] = data.apply(sanctions_risk_score, axis=1)
+
+# Show results
+print("Sanctions risk scores calculated:")
+print(data[['customer_id', 'country', 'matched_watchlist', 'transaction_type', 'risk_score']].head())
+
+# Save the scored data for further reporting
+data.to_csv('sanctions_risk_scored.csv', index=False)
