@@ -1,0 +1,87 @@
+model:
+  name: "Sanctions Risk Assessment Model"
+  version: "2.0.0"
+  author: "Souptik Chakraborty"
+  date: "2025-06-28"
+  purpose: >
+    Assess and prioritize sanctions risk for customers and transactions
+    using both rule-based and machine learning models. Incorporates
+    dynamic risk factors such as country, watchlist matches, transaction
+    type, historical alerts, and behavioral patterns. Enables automated
+    and explainable risk scoring for compliance and audit purposes.
+
+scope:
+  use_cases:
+    - Customer onboarding and periodic review
+    - Transaction monitoring (real-time and batch)
+    - Supplier and third-party due diligence
+  risk_types:
+    - Sanctions evasion
+    - OFAC/UN/EU/Local list violations
+    - Cross-border and high-risk jurisdiction exposure
+
+data:
+  sources:
+    - AWS S3 bucket: sanctions_risk/data.csv
+    - Local CSV for testing/demo
+  ingestion_methods:
+    - Python scripts for AWS S3, GCP, Azure, and local CSV
+  preprocessing:
+    - Fill missing values with ''
+    - Standardize column names (lowercase, underscores)
+    - Data type normalization for boolean and categorical fields
+
+features:
+  - amount_zscore: Normalized transaction amount (z-score)
+  - txn_count: Transaction frequency per customer
+  - alert_count_norm: Normalized historical alert count
+  - suspicion_score_sq: Nonlinear transformation of suspicion score
+  - country_risk: Binary indicator for sanctioned countries
+  - watchlist_match: Binary indicator for watchlist matches
+  - txn_type_risk: Binary indicator for high-risk transaction types (cross-border, crypto)
+
+methodology:
+  approaches:
+    - Rule-based risk scoring (sum of weighted risk factors: country, watchlist, transaction type)
+    - Machine learning (Random Forest Classifier with advanced feature set)
+  model_training:
+    - Train/test split (80/20)
+    - Random Forest (n_estimators=100, random_state=42)
+    - Evaluation: classification report, ROC AUC
+  risk_score_output:
+    - For each record, output both rule-based and ML risk scores
+
+validation:
+  metrics:
+    - Precision, recall, F1-score, ROC AUC
+    - Backtesting with historical data and known sanctions matches
+  functional_testing:
+    - Test with control names and altered variants to validate detection logic[3]
+    - Compare alerts to historical output for consistency
+
+outputs:
+  - sanctions_risk_scored.csv: Rule-based risk scores
+  - sanctions_risk_scored_ml.csv: ML-based risk scores
+  - sanctions_risk_report.csv: Top risk cases for compliance review
+
+compliance_and_governance:
+  documentation:
+    - Full model context, assumptions, and methodology described in this YAML
+    - Versioning and change log for all model updates
+  explainability:
+    - Transparent rule logic
+    - Feature importance from ML model
+  audit_trail:
+    - All scoring decisions and data transformations logged
+  regulatory_alignment:
+    - Aligned with DFAT, OFAC, and relevant local sanctions guidance[1][3][4]
+    - Supports continuous monitoring and reassessment as required by evolving sanctions regimes
+
+limitations_and_assumptions:
+  - Sanctioned country and watchlist lists are updated regularly
+  - Data quality and completeness are assumed
+  - Model does not replace legal advice; users must ensure compliance with all applicable laws[1]
+
+integration:
+  - Can be extended to API or dashboard for real-time screening
+  - Modular for integration with other risk assessment modules
