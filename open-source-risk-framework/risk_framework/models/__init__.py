@@ -10,10 +10,10 @@ from .operational_risk.rule_based import RuleBasedModel
 from .operational_risk.loss_distribution import LossDistributionModel
 from .operational_risk.scenario_analysis import ScenarioAnalysisModel
 
-# Fraud / AML Models
-from .fraud_aml.isolation_forest import IsolationForestModel
-from .fraud_aml.anomaly_detection import AnomalyDetectionModel
-from .fraud_aml.network_analysis import NetworkAnalysisModel
+# Financial Crime / AML / KYC Models
+from .fincrime_aml_kyc.isolation_forest import IsolationForestModel
+from .fincrime_aml_kyc.anomaly_detection import AnomalyDetectionModel
+from .fincrime_aml_kyc.network_analysis import NetworkAnalysisModel
 
 # Market Risk Models
 from .market_risk.var_historical import HistoricalVaRModel
@@ -33,7 +33,7 @@ __all__ = [
     "XGBoostCreditModel", "ProbabilityOfDefaultModel", "MertonModel",
     # Operational
     "RuleBasedModel", "LossDistributionModel", "ScenarioAnalysisModel",
-    # Fraud / AML
+    # Financial Crime / AML / KYC
     "IsolationForestModel", "AnomalyDetectionModel", "NetworkAnalysisModel",
     # Market
     "HistoricalVaRModel", "ExpectedShortfallModel", "GARCHVolatilityModel",
