@@ -1,0 +1,93 @@
+# open-source-risk-framework/risk_framework/mcp/mcp_template.yaml
+---
+metadata:
+  framework_version: "2.1"
+  effective_date: "2023-11-01"
+  last_review_date: ""
+  owner: "Risk Modeling Team"
+  applicable_regulations: ["Basel III", "SR 11-7", "IFRS 9"]
+
+model_governance:
+  oversight_body: "Enterprise Risk Committee"
+  model_tiering:
+    tier_1_criteria: 
+      - "Material financial impact (>$10M)"
+      - "Regulatory reporting usage"
+      - "Enterprise-wide deployment"
+    tier_2_criteria:
+      - "Departmental usage"
+      - "Limited financial impact"
+  review_frequency:
+    tier_1: "Quarterly"
+    tier_2: "Biannually"
+    ad_hoc: "After material data/process changes"
+
+development_standards:
+  documentation_requirements:
+    - "Model purpose and methodology"
+    - "Input data specifications"
+    - "Key assumptions and limitations"
+    - "Validation results"
+  version_control:
+    required: true
+    standards: "Git with semantic versioning"
+  testing:
+    unit_test_coverage: "≥85%"
+    integration_testing: "Required pre-deployment"
+    backtesting: "Annual for predictive models"
+
+validation_framework:
+  independence_requirement: "Third-party validation for Tier 1 models"
+  quantitative_tests:
+    - "Accuracy testing"
+    - "Stability analysis"
+    - "Benchmarking"
+  qualitative_assessments:
+    - "Conceptual soundness"
+    - "Data quality review"
+  outcomes:
+    approval_threshold: "80% validation score"
+    remediation_plan_required: "For scores <70%"
+
+implementation_controls:
+  deployment_approval:
+    tier_1: "CRO sign-off required"
+    tier_2: "Department head approval"
+  monitoring:
+    production_metrics:
+      - "Input data drift"
+      - "Output stability"
+      - "Performance decay"
+    alert_thresholds:
+      - ">5% feature drift"
+      - ">10% accuracy degradation"
+  change_management:
+    version_migration: "Blue-green deployment required"
+    rollback_protocol: "48-hour reversion window"
+
+data_management:
+  input_data_requirements:
+    freshness: "Max 30-day old data for real-time models"
+    completeness: "≥95% complete fields"
+    quality_checks:
+      - "Outlier detection"
+      - "Temporal consistency"
+  lineage_tracking:
+    required: true
+    tools: "OpenLineage or custom metadata tracker"
+
+model_risk_mitigation:
+  fallback_protocols:
+    - "Pre-approved simplified models"
+    - "Manual override procedures"
+  limitation_disclosures:
+    required: true
+    template: "See Appendix A"
+  compensating_controls:
+    - "Human review of high-risk outputs"
+    - "Multi-model consensus for critical decisions"
+
+appendices:
+  appendix_a: "Standard Limitation Disclosure Template"
+  appendix_b: "Validation Report Structure"
+  appendix_c: "Model Inventory Schema"
