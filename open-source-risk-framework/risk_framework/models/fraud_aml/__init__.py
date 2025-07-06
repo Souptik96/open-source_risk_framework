@@ -1,0 +1,3 @@
+from .fincrime_aml_kyc.isolation_forest import IsolationForestModel
+from .fincrime_aml_kyc.anomaly_detection import AnomalyDetectionModel
+from .fincrime_aml_kyc.network_analysis import NetworkAnalysisModel
