@@ -1,0 +1,35 @@
+# .gitignore
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# VS Code settings
+.vscode/
+
+# macOS/Linux system files
+.DS_Store
+Thumbs.db
+
+# Logs and reports
+*.log
+*.out
+*.bak
+
+# Environment and config files
+.env
+*.env
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
