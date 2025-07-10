@@ -1,0 +1,33 @@
+# requirements.txt
+
+# Core
+pandas
+numpy
+yaml
+scikit-learn
+xgboost
+
+# NLP (for scenario analysis, sanctions matching, etc.)
+spacy
+fuzzywuzzy[speedup]
+
+# Graph Analysis
+networkx
+
+# Visualization & Reporting
+matplotlib
+seaborn
+streamlit
+
+# Dashboard/API
+fastapi
+uvicorn
+
+# Model Explainability
+dtale
+shap
+
+# Optional Cloud Support (for later phase)
+# boto3  # AWS S3
+# google-cloud-storage
+# azure-storage-blob
