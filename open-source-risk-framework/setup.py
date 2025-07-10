@@ -5,7 +5,7 @@ setup(
     version="0.1.0",
     description="Modular open-source risk framework for credit, fraud, operational, market, and regulatory risk.",
     author="Souptik Chakraborty",
-    author_email="souptik@example.com",  # (Update this with your preferred email)
+    author_email="souptikc80@gmail.com",
     url="https://github.com/Souptik96/open-source_risk_framework",
     packages=find_packages(include=["risk_framework", "risk_framework.*"]),
     include_package_data=True,
