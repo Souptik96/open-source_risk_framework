@@ -1,0 +1,39 @@
+# AML Policy Definition
+apiVersion: policy/v1
+kind: AMLPolicy
+metadata:
+  name: enhanced-transaction-monitoring
+  version: "2.1.0"
+  jurisdiction: ["US", "EU", "UK"]
+  
+spec:
+  triggers:
+    - suspicious_amount_patterns
+    - cross_border_activities  
+    - high_risk_entities
+    
+  ai_enhancement:
+    enabled: true
+    confidence_threshold: 0.85
+    model_version: "aml-v3.2"
+    
+  rules:
+    - name: "dynamic_amount_threshold"
+      type: "ai_enhanced"
+      base_rule: |
+        package aml.suspicious_transactions
+        
+        suspicious_transaction[reason] {
+            # AI-enhanced amount analysis
+            ai_risk_score := ai.analyze_transaction(input.transaction)
+            ai_risk_score.confidence > 0.85
+            ai_risk_score.risk_level == "HIGH"
+            reason := ai_risk_score.explanation
+        }
+        
+        suspicious_transaction[reason] {
+            # Traditional fallback rules
+            input.transaction.amount > data.thresholds[input.transaction.currency]
+            input.transaction.destination_country in data.high_risk_countries
+            reason := "High amount to high-risk jurisdiction"
+        }
