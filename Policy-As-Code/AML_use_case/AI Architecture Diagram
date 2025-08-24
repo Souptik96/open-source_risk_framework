@@ -1,0 +1,80 @@
+┌─────────────────────────────────────────────────────────────────┐
+│                     AI-Powered Policy-as-Code Architecture      │
+└─────────────────────────────────────────────────────────────────┘
+
+┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐
+│   Regulatory     │    │   Transaction    │    │   Customer       │
+│   Data Sources   │    │   Stream         │    │   Data           │
+│                  │    │                  │    │                  │
+│ • FATF Updates   │    │ • Real-time      │    │ • Profile        │
+│ • Local Rules    │    │   Transactions   │    │ • History        │
+│ • Typologies     │    │ • Batch Loads    │    │ • Risk Scores    │
+└──────────────────┘    └──────────────────┘    └──────────────────┘
+         │                        │                        │
+         ▼                        ▼                        ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                        AI Processing Layer                      │
+│                                                                 │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐         │
+│  │     LLM      │  │   ML Models  │  │  Knowledge   │         │
+│  │  Regulatory  │  │              │  │    Graph     │         │
+│  │ Translation  │  │ • Anomaly    │  │              │         │
+│  │              │  │   Detection  │  │ • Entity     │         │
+│  │ • Rule       │  │ • Pattern    │  │   Linking    │         │
+│  │   Parsing    │  │   Recognition│  │ • Network    │         │
+│  │ • Policy     │  │ • Risk       │  │   Analysis   │         │
+│  │   Generation │  │   Scoring    │  │              │         │
+│  └──────────────┘  └──────────────┘  └──────────────┘         │
+└─────────────────────────────────────────────────────────────────┘
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    Policy Execution Engine                      │
+│                                                                 │
+│  ┌─────────────────┐              ┌─────────────────┐          │
+│  │  Policy Store   │              │  Execution      │          │
+│  │                 │              │  Runtime        │          │
+│  │ • Versioned     │◄────────────►│                 │          │
+│  │   Policies      │              │ • Open Policy   │          │
+│  │ • A/B Testing   │              │   Agent (OPA)   │          │
+│  │ • Rollback      │              │ • Rule Engine   │          │
+│  │   Capability    │              │ • Decision Tree │          │
+│  └─────────────────┘              └─────────────────┘          │
+└─────────────────────────────────────────────────────────────────┘
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    Decision & Action Layer                      │
+│                                                                 │
+│ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐             │
+│ │   Risk       │ │   Alert      │ │   Compliance │             │
+│ │ Assessment   │ │ Generation   │ │  Reporting   │             │
+│ │              │ │              │ │              │             │
+│ │ • Score      │ │ • Priority   │ │ • Audit      │             │
+│ │ • Confidence │ │ • Assignment │ │   Trail      │             │
+│ │ • Explanation│ │ • Escalation │ │ • Regulatory │             │
+│ └──────────────┘ └──────────────┘ └──────────────┘             │
+└─────────────────────────────────────────────────────────────────┘
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    Feedback & Learning Loop                     │
+│                                                                 │
+│ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐             │
+│ │   Human      │ │   Model      │ │   Policy     │             │
+│ │  Feedback    │ │  Retraining  │ │  Evolution   │             │
+│ │              │ │              │ │              │             │
+│ │ • False      │ │ • Feature    │ │ • Rule       │             │
+│ │   Positives  │ │   Engineering│ │   Updates    │             │
+│ │ • SAR Filed  │ │ • Hyperparameter │ • Threshold │             │
+│ │ • Compliance │ │   Tuning     │ │   Adjustment │             │
+│ └──────────────┘ └──────────────┘ └──────────────┘             │
+└─────────────────────────────────────────────────────────────────┘
+
+Key Features:
+- Real-time policy updates from regulatory changes
+- Explainable AI decisions for compliance officers  
+- Continuous learning from investigator feedback
+- Multi-modal analysis (structured + unstructured data)
+- Automated policy versioning and rollback
+- Integration with existing AML infrastructure
